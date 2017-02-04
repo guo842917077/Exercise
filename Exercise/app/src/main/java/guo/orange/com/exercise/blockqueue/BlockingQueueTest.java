@@ -44,6 +44,7 @@ public class BlockingQueueTest {
  static   class Toaster implements Runnable{
         private  LinkedBlockingQueue<Toast> toastQueue;
          int count=0;
+        Random random=new Random(47);
          public Toaster(LinkedBlockingQueue<Toast> toastQueue) {
              this.toastQueue=toastQueue;
          }
@@ -52,7 +53,7 @@ public class BlockingQueueTest {
          public void run() {
              while (!Thread.interrupted()) {
                  try {
-                     TimeUnit.MILLISECONDS.sleep(200);
+                     TimeUnit.MILLISECONDS.sleep(100+random.nextInt(500));
                      //制作toast
                      Toast t = new Toast(count++);
                      toastQueue.put(t);
@@ -60,7 +61,7 @@ public class BlockingQueueTest {
                      e.printStackTrace();
                  }
              }
-             Log.d("tag","吐司制作完毕");
+            System.out.println("吐司出炉");
          }
      }
   static  class Butter implements Runnable{
@@ -74,14 +75,14 @@ public class BlockingQueueTest {
             while (!Thread.interrupted()) {
                 try {
                     //将制作好的吐司涂油
-                    Toast t = dryQueue.poll();
+                    Toast t = dryQueue.take();
                     t.butter();
                     butterQueue.put(t);
-                    Log.d("tag","吐司上油完毕");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
+            System.out.println("吐司上油完毕");
         }
     }
 
@@ -99,14 +100,14 @@ public class BlockingQueueTest {
             while (!Thread.interrupted()) {
                 try {
                     //最后将涂好黄油的吐司，添加果酱
-                    Toast t = butterQueue.poll();
-                    t.butter();
+                    Toast t = butterQueue.take();
+                    t.jam();
                     finishQueue.put(t);
-                    Log.d("tag","吐司制作完毕");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
+            System.out.println("吐司加入果酱完毕");
         }
     }
 
@@ -124,12 +125,15 @@ public class BlockingQueueTest {
             while (!Thread.interrupted()){
                 try {
                     //最后将涂好黄油的吐司，添加果酱
-                    Toast t = finishQueue.poll();
+                    Toast t = finishQueue.take();
                     if (t.getId()!=count++||!t.status.equals("果酱")){
                         System.exit(1);
-                        Log.d("tag","你的制作流程出错啦"+t.getId()+t.status+count);
+//                        Log.d("tag","你的制作流程出错啦"+t.getId()+t.status+count);
+                        System.out.print("取出吐司出现问题");
+                    }else{
+                        System.out.println("吐司吃掉了");
                     }
-                    Log.d("tag","吐司制作完毕");
+//                    Log.d("tag","吐司制作完毕");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -137,13 +141,15 @@ public class BlockingQueueTest {
         }
     }
   public static void main(String[] args) throws Exception{
-      LinkedBlockingQueue<Toast> toastQueue=new LinkedBlockingQueue<>(),butterQueue=new LinkedBlockingQueue<>(),finishQueue=new LinkedBlockingQueue<>();
+      LinkedBlockingQueue<Toast> toastQueue=new LinkedBlockingQueue<>(),
+              butterQueue=new LinkedBlockingQueue<>(),
+              finishQueue=new LinkedBlockingQueue<>();
       ExecutorService mExecutor= Executors.newCachedThreadPool();
       mExecutor.execute(new Toaster(toastQueue));
       mExecutor.execute(new Butter(toastQueue,butterQueue));
       mExecutor.execute(new Jammer(butterQueue,finishQueue));
       mExecutor.execute(new Costomer(finishQueue));
-      TimeUnit.SECONDS.sleep(5);
+      TimeUnit.SECONDS.sleep(2);
       mExecutor.shutdownNow();
   }
 }
