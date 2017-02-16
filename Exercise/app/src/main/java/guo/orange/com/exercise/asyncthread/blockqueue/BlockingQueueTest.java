@@ -1,9 +1,6 @@
-package guo.orange.com.exercise.blockqueue;
-
-import android.util.Log;
+package guo.orange.com.exercise.asyncthread.blockqueue;
 
 import java.util.Random;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;

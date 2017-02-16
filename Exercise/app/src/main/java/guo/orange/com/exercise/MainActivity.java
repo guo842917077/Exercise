@@ -3,11 +3,10 @@ package guo.orange.com.exercise;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import guo.orange.com.exercise.thread.handleExeception.CatchExeceptionThreadFactory;
+import guo.orange.com.exercise.asyncthread.thread.handleExeception.CatchExeceptionThreadFactory;
 
 public class MainActivity extends AppCompatActivity {
     /**
@@ -18,7 +17,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+     test();
+    }
+    private  void test(){
+        testUncatchExeception();
     }
     /**
      * 捕获异常的线程练习

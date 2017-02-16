@@ -1,4 +1,4 @@
-package guo.orange.com.exercise.component.cyclicbarrier;
+package guo.orange.com.exercise.asyncthread.component.cyclicbarrier;
 
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;

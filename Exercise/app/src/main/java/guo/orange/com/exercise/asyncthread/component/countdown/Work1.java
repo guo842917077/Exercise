@@ -1,4 +1,4 @@
-package guo.orange.com.exercise.component.countdown;
+package guo.orange.com.exercise.asyncthread.component.countdown;
 
 import java.util.concurrent.CountDownLatch;
 

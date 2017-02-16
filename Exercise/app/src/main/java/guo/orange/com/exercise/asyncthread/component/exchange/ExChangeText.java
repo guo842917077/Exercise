@@ -1,4 +1,4 @@
-package guo.orange.com.exercise.component.exchange;
+package guo.orange.com.exercise.asyncthread.component.exchange;
 
 import java.util.concurrent.Exchanger;
 import java.util.concurrent.ExecutorService;

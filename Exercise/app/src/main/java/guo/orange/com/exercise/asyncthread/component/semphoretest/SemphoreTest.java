@@ -1,9 +1,8 @@
-package guo.orange.com.exercise.component.semphoretest;
+package guo.orange.com.exercise.asyncthread.component.semphoretest;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.ThreadFactory;
 
 /**
  * Semaphore是一个计数信号量，它的内部维护了一个信号量集合，
