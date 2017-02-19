@@ -7,6 +7,11 @@ package guo.orange.com.exercise.design.proxy.staticproxy;
  * 3.静态代理类实现接口
  * 4.静态代理类内部持有具体的实现类对象
  * 5.静态代理内部的方法实现由具体实现类完成
+ *
+ *
+ * 使用场景：
+ * 1.灵活的使用不同的策略，达到同一种结果。
+ * 2.动态的为真实方法添加一些操作。
  */
 
 public class StaticProxyManager implements ProxyInterface{
