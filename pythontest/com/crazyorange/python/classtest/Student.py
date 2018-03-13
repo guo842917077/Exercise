@@ -23,7 +23,7 @@ class Student(object):
         self.__address = ""
 
     def run(self):
-        print("student is run")
+        print("student is run : ")
 
 
 class Animal(object):

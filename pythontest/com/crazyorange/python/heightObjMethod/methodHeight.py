@@ -8,7 +8,6 @@
   要先调用set方法才能再调用 get方法，否则self 并没有和你声明的对象进行绑定。
 """
 
-
 class SlotsObj(object):
     ##声明属性score的get方法
     @property
