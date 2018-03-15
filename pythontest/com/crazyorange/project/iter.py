@@ -58,3 +58,13 @@ def nextFunction():
 
 for n in nextFunction():
     n
+
+
+from  itertools import  chain
+
+####穿行打印多个集合
+for x in chain([1,2,3,4],['A','B','C']):
+    print(x)
+####并行打印多个集合
+for x in zip([1,2,3,4],['A','B','C']):
+    print(x)

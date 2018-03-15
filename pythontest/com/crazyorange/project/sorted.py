@@ -13,7 +13,7 @@ print(sorted(p))
 
 
 ####直接使用sorted的key参数定义使用哪一个部分进行排序
-####这里key=lambda x：x[1] 表示 x 使用 字典中index为1的数
+####这里key=lambda x：x[1] 表示 x 使用 字典中index为1的地方 ，表示使用值进行排序
 print(sorted(dict_data.items(),key=lambda x:x[1]))
 
 
@@ -21,7 +21,7 @@ print(sorted(dict_data.items(),key=lambda x:x[1]))
 ####如何快速查找多个字典中的公共键
 ####sample取样
 from random import randint,sample
-####每次从集合中 寻出3，6个数
+####每次从集合中 寻出3到6个数
 #name=sample('abcdefg',randint(3,6))
 
 s1={x:randint(1,4) for x in sample('abcdefg',randint(3,6))}

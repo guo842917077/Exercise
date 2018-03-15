@@ -8,3 +8,4 @@ Student=namedtuple("student",['name','age','work'])
 s=Student('guo',25,'java')
 print(s)
 
+
