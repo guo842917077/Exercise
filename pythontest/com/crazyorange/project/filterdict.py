@@ -35,3 +35,5 @@ print("%s" % (data))
 s=set(data)
 result3={r for r in s if r%2==0}
 print(result3)
+
+
