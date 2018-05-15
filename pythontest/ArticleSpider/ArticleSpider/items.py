@@ -13,7 +13,9 @@ class ArticlespiderItem(scrapy.Item):
     # name = scrapy.Field()
     pass
 
-
+"""
+定义数据类型
+"""
 class JoBBoleArticleItem(scrapy.Item):
     """
     标题

@@ -66,8 +66,10 @@ ROBOTSTXT_OBEY = False
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ##数字代表优先级，配置先后顺序有关
 ITEM_PIPELINES = {
-   'ArticleSpider.pipelines.ArticleImagePipeline':2,
-   'ArticleSpider.pipelines.ArticlespiderPipeline':300
+  # 'ArticleSpider.pipelines.ArticleImagePipeline':2,
+   #'ArticleSpider.pipelines.ArticlespiderPipeline':1,
+  # 'ArticleSpider.pipelines.JobJsonExporter':2
+  'ArticleSpider.pipelines.JobMySqlPipline':2
     #配置图片下载的方式
   # 'scrapy.pipelines.images.ImagesPipeline':1
 }
@@ -106,3 +108,5 @@ IMAGES_STORE = os.path.join(project_dir, 'images')
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+####数据库连接配置
