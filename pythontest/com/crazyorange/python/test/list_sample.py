@@ -9,4 +9,8 @@ print('second name is ' + names[2] + " length of names %s" % (len(names)))
 
 ###使用()表示元组 python中一个不可以修改的集合
 tupleNames = ('guo', 'wang', 'xing', 'duan')
-
+#查看全局 命名和引用的映射关系
+"""
+{... 'names': ['guo', 'wang', 'duan', 'yang'], 'tupleNames': ('guo', 'wang','xing', 'duan')}
+"""
+print(locals())
