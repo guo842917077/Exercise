@@ -74,8 +74,9 @@ class JobboleSpider(scrapy.Spider):
             # 通常情况下获取到的不是完整的url，需要和域名拼接，形成完整的url
             post_url = post_node.css("::attr(href)").extract_first("")
             print("post url is :" + parse.urljoin(response.url, post_url))
+            #meta配置一些参数，传递给reponse
             yield Request(url=parse.urljoin(response.url, post_url), meta={"front_image_url": image_url},
-                          callback=self.parse_detail)
+                          callback=self. parse_detail)
             # 通过两个class标签定位一个标签
         """
         reponse.css和.xPath会构建一个selector对象，Selector对象负责从网页中提取元素
@@ -98,6 +99,7 @@ class JobboleSpider(scrapy.Spider):
         article_item = JoBBoleArticleItem()
 
         # 通过css选择器提取字段
+        ##meta字段是单独配置的
         front_image_url = response.meta.get("front_image_url", "")  # 文章封面图
         title = response.css(".entry-header h1::text").extract()[0]
         create_date = response.css("p.entry-meta-hide-on-mobile::text").extract()[0].strip().replace("·", "").strip()
@@ -150,6 +152,7 @@ class JobboleSpider(scrapy.Spider):
         article_item['url_md5_id'] = get_md5(response.url)
         article_item['title'] = title
         article_item['create_date'] = create_date
+        #在爬去图片时，如果配置了ImagePiple，那么会将图片地址当作数组来处理，所以需要将字符放入到数组中
         article_item['front_img_url'] = [front_image_url]
         article_item['praise_nums'] = praise_nums
         article_item['commment_nums'] = comment_nums

@@ -14,7 +14,8 @@ class ArticlespiderItem(scrapy.Item):
     pass
 
 """
-定义数据类型
+定义数据类型，将数据组成结构，并返回数据给scrapy
+当scrapy发现数据是一个item时，会自动将数据路由到pipelines中
 """
 class JoBBoleArticleItem(scrapy.Item):
     """

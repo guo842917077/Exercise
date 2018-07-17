@@ -6,6 +6,10 @@
 _file_参数表示当前文件 即main.py
 4.在settings.py中 一定要把ROBOTSTXT_OBEY 设置成false，否则会查询每一个网站是否符合robots协议
 不符合的就过滤
+
+
+爬虫的执行流程 jobbole的parse---pipeline---数据库
+这些要在settings中配置好使用的pipeline
 """
 import sys
 import os
