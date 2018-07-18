@@ -26,6 +26,7 @@ import pymysql as MySql
 from twisted.enterprise import adbapi
 import pymysql.cursors
 
+
 class ArticlespiderPipeline(object):
     def process_item(self, item, spider):
         return item
@@ -77,9 +78,10 @@ class ArticleImagePipeline(ImagesPipeline):
     # 可以获取到图片的实际下载地址
     # 使用debug方式查看result 是存放元组的数组，并且元组中的value 是一个dict
     def item_completed(self, results, item, info):
-        for isOk, value in results:
-            image_file_path = value['path']
-        item['front_image_path'] = image_file_path
+        if "front_image_url" in item:
+            for isOk, value in results:
+                image_file_path = value['path']
+            item['front_image_url'] = image_file_path
         return item
 
 
@@ -103,8 +105,8 @@ class JobSettings(object):
 
 
 class JobMySqlPipline(object):
-    def __init__(self,dbPool):
-        self.dbPool=dbPool
+    def __init__(self, dbPool):
+        self.dbPool = dbPool
 
     ##这个方法会在pipline初始化的时候调用
     @classmethod
@@ -118,27 +120,30 @@ class JobMySqlPipline(object):
         dbParams = dict(host=host, db=database, user=account, password=password, port=port,
                         charset='utf8', use_unicode=True)
         print("from settings : " + host + " password : " + password)
-        #将数据库操作编程异步操作，这里pymysql代表使用的数据库
+        # 将数据库操作编程异步操作，这里pymysql代表使用的数据库
         dbPool = adbapi.ConnectionPool("pymysql", **dbParams)
         return cls(dbPool)
 
     def process_item(self, item, spider):
         # 传递数据给exporter
-        # 使用twisted和mysql将数据库插入编程异步操作
-        query= self.dbPool.runInteraction(self.do_insert,item)
-        #添加异步错误处理操作
-        query.addErrback(self.handleError,item,spider)
+        # 使用twisted和mysql将数据库插入编程异步操作，需要指定插入方法回调
+        query = self.dbPool.runInteraction(self.do_insert, item)
+        # 添加异步错误处理操作
+        query.addErrback(self.handleError, item, spider)
         return item
 
-    def do_insert(self,cursor,item):
+    # 执行插入方法回调
+    def do_insert(self, cursor, item):
         sql = """
                     insert into article_spider(title,url,front_img_path,praise_nums)
                   VALUES (%s,%s,%s,%s)
                    """
         cursor.execute(sql, (item['title'], item['url'], item['front_img_url'], item['praise_nums'],))
-        #不再需要commit操作，这个操作自动完成
-        #self.conn.commit()
-    def handleError(self,failuer,item,spider):
+        # 不再需要commit操作，这个操作自动完成
+        # self.conn.commit()
+        ###处理异常毁掉
+
+    def handleError(self, failuer, item, spider):
         print(failuer)
 # class JobMySqlPipline(object):
 #     def __init__(self):

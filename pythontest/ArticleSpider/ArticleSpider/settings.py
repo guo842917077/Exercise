@@ -68,8 +68,8 @@ ROBOTSTXT_OBEY = False
 ITEM_PIPELINES = {
     # 'ArticleSpider.pipelines.ArticleImagePipeline':2,
     # 'ArticleSpider.pipelines.ArticlespiderPipeline':1,
-    # 'ArticleSpider.pipelines.JobJsonExporter':2
-    'ArticleSpider.pipelines.JobMySqlPipline':2
+    'ArticleSpider.pipelines.JobJsonExporter':2
+    # 'ArticleSpider.pipelines.JobMySqlPipline':2
     # 配置图片下载的方式
     # 'scrapy.pipelines.images.ImagesPipeline':1
 }

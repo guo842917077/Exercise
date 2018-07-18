@@ -11,9 +11,12 @@ import re
 import datetime
 from scrapy.http import Request
 from urllib import parse
-from ArticleSpider.items import JoBBoleArticleItem
+from ArticleSpider.items import JoBBoleArticleItem,FirstItemLoader
 from ArticleSpider.utils.common import get_md5
-
+"""
+通过Itemloader来加载item
+"""
+from scrapy.loader import ItemLoader
 """
 继承scrapy的Spider类
 """
@@ -101,34 +104,34 @@ class JobboleSpider(scrapy.Spider):
         # 通过css选择器提取字段
         ##meta字段是单独配置的
         front_image_url = response.meta.get("front_image_url", "")  # 文章封面图
-        title = response.css(".entry-header h1::text").extract()[0]
-        create_date = response.css("p.entry-meta-hide-on-mobile::text").extract()[0].strip().replace("·", "").strip()
-        praise_nums = response.css(".vote-post-up h10::text").extract()[0]
-        fav_nums = response.css(".bookmark-btn::text").extract()[0]
-        match_re = re.match(".*?(\d+).*", fav_nums)
-        if match_re:
-            fav_nums = int(match_re.group(1))
-        else:
-            fav_nums = 0
+        # title = response.css(".entry-header h1::text").extract()[0]
+        # create_date = response.css("p.entry-meta-hide-on-mobile::text").extract()[0].strip().replace("·", "").strip()
+        # praise_nums = response.css(".vote-post-up h10::text").extract()[0]
+        # fav_nums = response.css(".bookmark-btn::text").extract()[0]
+        # match_re = re.match(".*?(\d+).*", fav_nums)
+        # if match_re:
+        #     fav_nums = int(match_re.group(1))
+        # else:
+        #     fav_nums = 0
+        #
+        # comment_nums = response.css("a[href='#article-comment'] span::text").extract()[0]
+        # match_re = re.match(".*?(\d+).*", comment_nums)
+        # if match_re:
+        #     comment_nums = int(match_re.group(1))
+        # else:
+        #     comment_nums = 0
+        #
+        # content = response.css("div.entry").extract()[0]
+        #
+        # tag_list = response.css("p.entry-meta-hide-on-mobile a::text").extract()
+        # tag_list = [element for element in tag_list if not element.strip().endswith("评论")]
+        # tags = ",".join(tag_list)
 
-        comment_nums = response.css("a[href='#article-comment'] span::text").extract()[0]
-        match_re = re.match(".*?(\d+).*", comment_nums)
-        if match_re:
-            comment_nums = int(match_re.group(1))
-        else:
-            comment_nums = 0
 
-        content = response.css("div.entry").extract()[0]
-
-        tag_list = response.css("p.entry-meta-hide-on-mobile a::text").extract()
-        tag_list = [element for element in tag_list if not element.strip().endswith("评论")]
-        tags = ",".join(tag_list)
-
-
-        try:
-            create_date = datetime.datetime.strptime(create_date, "%Y/%m/%d").date()
-        except Exception as e:
-            create_date = datetime.datetime.now().date()
+        # try:
+        #     create_date = datetime.datetime.strptime(create_date, "%Y/%m/%d").date()
+        # except Exception as e:
+        #     create_date = datetime.datetime.now().date()
 
         # ###获取xpath对象
         # ####可以在网页的调试模式下 选中元素 使用右键copy xpath
@@ -148,14 +151,32 @@ class JobboleSpider(scrapy.Spider):
 
         # 将数据保存到Item中
 
-        article_item["url"] = response.url
-        article_item['url_md5_id'] = get_md5(response.url)
-        article_item['title'] = title
-        article_item['create_date'] = create_date
+        # article_item["url"] = response.url
+        # article_item['url_md5_id'] = get_md5(response.url)
+        # article_item['title'] = title
+        # article_item['create_date'] = create_date
         #在爬去图片时，如果配置了ImagePiple，那么会将图片地址当作数组来处理，所以需要将字符放入到数组中
-        article_item['front_img_url'] = [front_image_url]
-        article_item['praise_nums'] = praise_nums
-        article_item['commment_nums'] = comment_nums
+        # article_item['front_img_url'] = [front_image_url]
+        # article_item['praise_nums'] = praise_nums
+        # article_item['commment_nums'] = comment_nums
         # article_item['content'] = content
         # 一定要返回yield对象，数据会传入到pipline
+
+        #通过itemloader来解析item
+        #1.如果是解析response中的css，那么使用add_css方法
+        #2.如果是解析xpath，那么使用add_xpath
+        #3.如果不需要解析，直接提取response中的值，那么使用addValue
+        #第一个值是对应item中的字段，第二个值是需要提取的样式
+        #使用自定义的itemloader，解决loader返回元素是数组的问题
+        #itemLoader=FirstItemLoader(item=JoBBoleArticleItem(),response=response)
+        itemLoader=ItemLoader(item=JoBBoleArticleItem(),response=response)
+        itemLoader.add_css("title",".entry-header h1::text")
+        itemLoader.add_css("create_date","p.entry-meta-hide-on-mobile::text")
+        itemLoader.add_value("front_img_url",[front_image_url])
+        itemLoader.add_value("url",response.url)
+        itemLoader.add_css("praise_nums",".vote-post-up h10::text")
+        itemLoader.add_css("commment_nums","a[href='#article-comment'] span::text")
+        #解析生成item
+        article_item=itemLoader.load_item()
+
         yield article_item

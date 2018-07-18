@@ -15,5 +15,7 @@ import sys
 import os
 from scrapy.cmdline import execute
 ##output:/Users/apple/Desktop/workspace/pythonwork/ArticleSpider
+#将这个文件加入到环境变量中
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+#执行可执行的脚本
 execute(['scrapy',"crawl","jobbole"])
