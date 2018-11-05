@@ -168,8 +168,8 @@ class JobboleSpider(scrapy.Spider):
         #3.如果不需要解析，直接提取response中的值，那么使用addValue
         #第一个值是对应item中的字段，第二个值是需要提取的样式
         #使用自定义的itemloader，解决loader返回元素是数组的问题
-        #itemLoader=FirstItemLoader(item=JoBBoleArticleItem(),response=response)
-        itemLoader=ItemLoader(item=JoBBoleArticleItem(),response=response)
+        # itemLoader=ItemLoader(item=JoBBoleArticleItem(),response=response)
+        itemLoader=FirstItemLoader(item=JoBBoleArticleItem(),response=response)
         itemLoader.add_css("title",".entry-header h1::text")
         itemLoader.add_css("create_date","p.entry-meta-hide-on-mobile::text")
         itemLoader.add_value("front_img_url",[front_image_url])

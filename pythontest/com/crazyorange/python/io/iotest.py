@@ -47,5 +47,5 @@ class Tt:
 
 import json
 
-t = Tt();
+t = Tt()
 print(json.dumps(t, default=lambda obj: obj.__dict__))

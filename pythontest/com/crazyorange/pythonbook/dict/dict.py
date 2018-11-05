@@ -35,3 +35,15 @@ alien={
     ,'point':[200,300]
 }
 print('x : '+str(alien['point'][0])+' y : '+str(alien['point'][1]))
+
+
+#在复制tp的基础上添加c：4的键值对
+tp={"a":1,"b":2}
+copy2=dict(tp,c=4)
+print(copy2)
+
+from collections import OrderedDict
+orderD=OrderedDict()
+orderD['a']=0
+orderD['g']=1
+print(orderD)

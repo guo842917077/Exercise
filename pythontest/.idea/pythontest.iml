@@ -2,10 +2,17 @@
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/venv" />
-      <excludeFolder url="file://$MODULE_DIR$/venv1" />
+      <sourceFolder url="file://$MODULE_DIR$/com/crazyorange" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/com/crazyorange/pythonbook/json" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/com/crazyorange/pythonbook/module" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/com/crazyorange/pythonbook/package1" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/com/crazyorange/pythonbook" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/com/crazyorange/pythonbook/clazz" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ArticleSpider/ArticleSpider/utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ArticleSpider/ArticleSpider/spiders" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ArticleSpider/ArticleSpider/images" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.6 (pythontest) (1)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.6 (ArticleSpider)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TestRunnerService">

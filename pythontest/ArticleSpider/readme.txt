@@ -10,3 +10,7 @@ http://www.runoob.com/xpath/xpath-syntax.html
 
 ####使用css来选择器来做
 css选择器和xpath差别不大
+
+
+####scrapy的动态网站抓去
+Selenium 自动测试框架
